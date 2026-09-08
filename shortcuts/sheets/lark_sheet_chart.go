@@ -115,6 +115,7 @@ var ChartCreateBasic = common.Shortcut{
 	HasFormat:   true,
 	Flags:       flagsFor("+chart-create-basic"),
 	PostMount:   configureChartSemanticCommand,
+	Normalize:   normalizeChartColorPalette,
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		token, err := resolveSpreadsheetToken(runtime)
 		if err != nil {
@@ -171,6 +172,7 @@ var ChartConfigUpdate = common.Shortcut{
 		"--dry-run validates the request shape only; execution reads the current chart snapshot, so X-axis bounds can still be rejected unless the existing bottom X axis is continuous (valueType=linear).",
 	},
 	PostMount: configureChartSemanticCommand,
+	Normalize: normalizeChartColorPalette,
 	Validate: func(ctx context.Context, runtime *common.RuntimeContext) error {
 		token, err := resolveSpreadsheetToken(runtime)
 		if err != nil {
@@ -209,15 +211,6 @@ var ChartConfigUpdate = common.Shortcut{
 		out, err := callTool(ctx, runtime, token, ToolKindWrite, "manage_chart_object", input)
 		if err != nil {
 			return err
-		}
-		if runtime.Changed("last-point-label") {
-			updatedSnapshot, readErr := fetchChartSnapshot(
-				ctx, runtime, token, sheetID, sheetName, runtime.Str("chart-id"),
-			)
-			if readErr != nil {
-				return readErr
-			}
-			viewModel = chartViewModel(updatedSnapshot)
 		}
 		runtime.Out(withChartShortcutResult(out, "viewModel", viewModel), nil)
 		return nil
@@ -1659,6 +1652,16 @@ func addChartSemanticConfig(rt flagView, out map[string]interface{}) {
 			out[key] = rt.Int(flag)
 		} else if flag == "x-axis-min" || flag == "x-axis-max" || flag == "y-axis-min" || flag == "y-axis-max" {
 			out[key] = rt.Float64(flag)
+		} else if flag == "color-palette" {
+			// The flag carries a friendly palette name; the server expects the
+			// wire value. Normalize already folded any legacy wire input to its
+			// friendly spelling, so a lookup miss means a raw wire value the
+			// alias table does not cover — forward it unchanged.
+			value := rt.Str(flag)
+			if wire, ok := friendlyToWireChartPalette(value); ok {
+				value = wire
+			}
+			out[key] = value
 		} else {
 			out[key] = rt.Str(flag)
 		}
