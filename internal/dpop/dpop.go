@@ -151,10 +151,6 @@ type Key struct {
 	clock         *AdjustableClock
 }
 
-func GenerateKey() (*Key, error) {
-	return NewKeyStore(nil).GenerateContext(context.Background())
-}
-
 func newKey(id string, public *ecdsa.PublicKey, signer keysigner.Signer, clock *AdjustableClock) *Key {
 	return newKeyWithMetadata(id, public, signer, signer.Name(), signer.SecurityLevel(), clock)
 }

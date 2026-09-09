@@ -245,18 +245,12 @@ func (s *KeyStore) EnsureContext(ctx context.Context, id string) (*Key, error) {
 	return nil, errors.Join(append([]error{keysigner.ErrUnavailable}, unavailable...)...)
 }
 
-// EnsureReplaceableContext opens a stable key or replaces stale metadata when
+// PrepareReplaceableContext opens a stable key or replaces stale metadata when
 // no persisted token can still be bound to that key. This is intended for TAT,
 // whose token and Binding are process-local. UAT callers must use LoadContext
 // so a missing bound key requires re-authorization instead of silent rebinding.
-func (s *KeyStore) EnsureReplaceableContext(ctx context.Context, id string) (*Key, error) {
-	key, _, err := s.PrepareReplaceableContext(ctx, id)
-	return key, err
-}
-
-// PrepareReplaceableContext is EnsureReplaceableContext with transaction
-// ownership information. created is true only when the caller owns a new key
-// and must delete it if the token issuance transaction does not commit.
+// Created is true only when the caller owns a new key and must delete it if the
+// token issuance transaction does not commit.
 func (s *KeyStore) PrepareReplaceableContext(ctx context.Context, id string) (*Key, bool, error) {
 	key, err := s.EnsureContext(ctx, id)
 	if err == nil {

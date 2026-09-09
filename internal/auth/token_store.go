@@ -96,13 +96,6 @@ func withCorruptTokenRecovery(err error) error {
 	return recovery.Attach(err, recovery.UserAuthorization())
 }
 
-// ResolveDPoPBinding restores and validates the key for a stored DPoP token.
-// Legacy records and explicit Bearer records return nil without touching the
-// key store.
-func ResolveDPoPBinding(token *StoredUAToken, store *dpop.KeyStore) (*dpop.Binding, error) {
-	return ResolveDPoPBindingContext(context.Background(), token, store)
-}
-
 // ResolveDPoPBindingContext restores a stored DPoP binding using the caller's
 // cancellation and deadline for platform key access.
 func ResolveDPoPBindingContext(ctx context.Context, token *StoredUAToken, store *dpop.KeyStore) (*dpop.Binding, error) {

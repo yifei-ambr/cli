@@ -14,6 +14,9 @@ import (
 	"unsafe"
 )
 
+// Keep the application tag stable so existing native keys remain discoverable.
+const hardwareKeyTag = "com.larksuite.cli.dpop"
+
 // These bindings are resolved by loadFFI alongside the L2 Keychain bindings.
 var (
 	secAccessControlCreate func(allocator, protection, flags uintptr, errOut *uintptr) uintptr

@@ -33,9 +33,6 @@ const (
 	AlgRS256 = "RS256"
 )
 
-// Keep the application tag stable so existing native keys remain discoverable.
-const hardwareKeyTag = "com.larksuite.cli.dpop"
-
 // SecurityLevel is the protection class of a signing backend.
 type SecurityLevel string
 
