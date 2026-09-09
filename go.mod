@@ -4,12 +4,15 @@ go 1.23.0
 
 require (
 	github.com/Microsoft/go-winio v0.6.2
+	github.com/SeriousBug/webp-go-pure v1.2.0
+	github.com/bep/imagemeta v0.12.1
 	github.com/bmatcuk/doublestar/v4 v4.10.0
 	github.com/charmbracelet/huh v1.0.0
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/gofrs/flock v0.8.1
 	github.com/google/uuid v1.6.0
 	github.com/itchyny/gojq v0.12.17
+	github.com/jsummers/gobmp v0.0.0-20230614200233-a9de23ed2e25
 	github.com/larksuite/oapi-sdk-go/v3 v3.7.2
 	github.com/sergi/go-diff v1.4.0
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
@@ -19,11 +22,10 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/tidwall/gjson v1.18.0
 	github.com/zalando/go-keyring v0.2.8
-	golang.org/x/image v0.30.0
-	golang.org/x/net v0.33.0
+	golang.org/x/net v0.43.0
 	golang.org/x/sync v0.16.0
-	golang.org/x/sys v0.33.0
-	golang.org/x/term v0.27.0
+	golang.org/x/sys v0.35.0
+	golang.org/x/term v0.34.0
 	golang.org/x/text v0.28.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -46,7 +48,7 @@ require (
 	github.com/godbus/dbus/v5 v5.2.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
-	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/itchyny/timefmt-go v0.1.6 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
